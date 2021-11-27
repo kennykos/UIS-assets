@@ -31,7 +31,13 @@ c.execute("""CREATE TABLE investments (
 directory = 'datasets2021'
 
 # list of asset class types
-asset_class_lst = ["Asset-Backed Securities", "Corporate Bonds", "U.S. Agency Bonds", "U.S. Treasury Securities"]
+asset_class_lst = ["Asset-Backed Securities", 
+                    "Corporate Bonds", 
+                    "U.S. Agency Bonds", 
+                    "U.S. Treasury Securities", 
+                    "Commercial Mortgage Backed Securities",
+                    "Municipal Bonds",
+                    ]
  
 # iterate over files in
 # that directory
@@ -43,9 +49,9 @@ for filename in os.listdir(directory):
         bank = f[f.rfind('-') + 1 : f.rfind(".")]
         with open(f) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
+            asset_class = " "
             for row in csv_reader:
                 # do something
-                asset_class = " "
                 if row[0] in asset_class_lst:
                     # get the asset class subgroup
                     asset_class = row[0]
