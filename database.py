@@ -66,6 +66,10 @@ for filename in os.listdir(directory):
                 ticker = row[8]
                 c.execute("""INSERT INTO investments(account, cupon, maturity_data, quantity, cost_value, market_value, industry, fossil_fuel, ticker, asset_class, bank)
                     VALUES(?,?,?,?,?,?,?,?,?,?,?)""", (account, cupon, maturity_data, quantity, cost_value, market_value, industry, fossil_fuel, ticker, asset_class, bank))
+
+
+# cleaning up the database
+
 # commiting the changes to the database
 conn.commit()
 
