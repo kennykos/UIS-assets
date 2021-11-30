@@ -21,14 +21,15 @@ def get_total_capital_in_ff():
             break
         sum += atof(row[5])
     # the ammount of money in fossil fuel companies, formated nicley
-    return '{0:,.2f}'.format(round(sum, 2))
+    return '{0:,.2f}'.format(round(sum, 2)), sum
 
 # make sure to update the database
 update()
 
 # output to user
-print("UIS has $" + get_total_capital_in_ff() + " invested in " + str(len(get_ff_comps())) + " companies that extract, transpot, and/or distribute fossil fuels")
+print("UIS has $" + get_total_capital_in_ff()[0] + " out of the $2,809,677,874.72 opperating pool funds (" + str(round((get_total_capital_in_ff()[1]/2809677874.72) * 100, 2)) +"%) invested in " + str(len(get_ff_comps())) + " companies that extract, transpot, and/or distribute fossil fuels")
 print("Here is a comprehensive list of these companies: ", '\n', get_ff_comps())
+print('This information can be found at:', "https://www.treasury.uillinois.edu/investments")
 # Note that no changes need to be committed to the database in this file
 
 # closing the connection to the database
