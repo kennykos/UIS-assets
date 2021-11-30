@@ -74,7 +74,7 @@ def get_ff_comps(result=None):
     if result is None:
         result = []
     # suffix
-    suffix = [" MKTS", " NT", " INC", "CHEVRON", "CENTERPOINT ENERGY", " CO", "DUKE ENERGY", "DTE E", "DOMINION", "SCHLUMBERGER", " 66"]
+    suffix = [" MKTS", " NT", " INC", "CHEVRON", "CENTERPOINT ENERGY", " CO", "DUKE ENERGY", "DTE E", "SCHLUMBERGER", " 66"]
     for row in c.execute('SELECT * FROM investments ORDER BY -fossil_fuel'):
         # Itterate as long as we have a fossil fuel company
         if row[7] != 1:
@@ -90,16 +90,30 @@ def get_ff_comps(result=None):
             company = company[:m.start()]
         
         # remove everything after suffixes
-        for s in suffix:
-            if s in company:
-                company = company[:company.index(s) + len(s)]
+        if 1:
+            for s in suffix:
+                if s in company:
+                    company = company[:company.index(s) + len(s)]
+
 
         result.append(company.strip())
     # return a list without any duplacates
     result = list(set(result))
+    result.sort()
     return result
 
 
+# update the table to include investments we missed
+def update():
+    ff_cos = get_ff_comps()
+    i = 0
+    for row in c.execute('SELECT * FROM investments'):
+        if any(c in row[0] for c in ff_cos) and row[7] != 1:
+            # update the ff marker to 1
+            c.execute('UPDATE investments SET fossil_fuel = 1 WHERE account=:name', {'name': row[0]})
+
+# call the update function on the database to clean up any messes
+update()
 
 # commiting the changes to the database
 conn.commit()
