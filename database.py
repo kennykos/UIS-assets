@@ -1,6 +1,7 @@
 import sqlite3 as sql
 import os
 import csv
+import re
 
 
 # Connecting to the database
@@ -69,6 +70,36 @@ for filename in os.listdir(directory):
 
 
 # cleaning up the database
+def get_ff_comps(result=None):
+    if result is None:
+        result = []
+    # suffix
+    suffix = [" MKTS", " NT", " INC", "CHEVRON", "CENTERPOINT ENERGY", " CO", "DUKE ENERGY", "DTE E", "DOMINION", "SCHLUMBERGER", " 66"]
+    for row in c.execute('SELECT * FROM investments ORDER BY -fossil_fuel'):
+        # Itterate as long as we have a fossil fuel company
+        if row[7] != 1:
+            break
+        company = row[0]
+        company = company.replace("PVTPL ", "")
+        company = company.replace(".", "")
+        
+        # remove everything after a number
+        m = re.search(r"\d", company)
+        if m is not None and "66" not in company:
+            # print(company[m.start() : m.start() + 2])
+            company = company[:m.start()]
+        
+        # remove everything after suffixes
+        for s in suffix:
+            if s in company:
+                company = company[:company.index(s) + len(s)]
+
+        result.append(company.strip())
+    # return a list without any duplacates
+    result = list(set(result))
+    return result
+
+
 
 # commiting the changes to the database
 conn.commit()
