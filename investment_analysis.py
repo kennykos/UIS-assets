@@ -27,7 +27,7 @@ def get_total_capital_in_ff():
 update()
 
 # output to user
-print("The University of Illinois System (UIS) has $" + get_total_capital_in_ff()[0] + " out of the $2,809,677,874.72 opperating pool funds (" + str(round((get_total_capital_in_ff()[1]/2809677874.72) * 100, 2)) +"%) invested in " + str(len(get_ff_comps())) + " companies that extract, transpot, and/or distribute fossil fuels", '\n')
+print("The University of Illinois System (UIS) has $" + get_total_capital_in_ff()[0] + " out of the $2,809,677,874.72 opperating pool funds (" + str(round((get_total_capital_in_ff()[1]/2809677874.72) * 100, 2)) +"%) invested in " + str(len(get_ff_comps())) + " companies that extract, transpot, and/or distribute fossil fuels.", '\n')
 print("Here is a comprehensive list of these companies: ", '\n', get_ff_comps(), '\n')
 print('More information on UIS investments can be found at:', "https://www.treasury.uillinois.edu/investments")
 # Note that no changes need to be committed to the database in this file
