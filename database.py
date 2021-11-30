@@ -4,11 +4,15 @@ import csv
 import re
 
 
-# Connecting to the database
-conn = sql.connect('UIS_FY21_Investments.db')
+def open_db():
+    # Connecting to the database
+    conn = sql.connect('UIS_FY21_Investments.db')
 
 # Creating a cursor executable
-c = conn.cursor()
+    c = conn.cursor()
+    return conn,c
+
+conn, c = open_db()
 
 
 # Deleting our table if it already exists
@@ -68,9 +72,10 @@ for filename in os.listdir(directory):
                 c.execute("""INSERT INTO investments(account, cupon, maturity_data, quantity, cost_value, market_value, industry, fossil_fuel, ticker, asset_class, bank)
                     VALUES(?,?,?,?,?,?,?,?,?,?,?)""", (account, cupon, maturity_data, quantity, cost_value, market_value, industry, fossil_fuel, ticker, asset_class, bank))
 
-
 # cleaning up the database
 def get_ff_comps(result=None):
+    conn, c = open_db()
+    # call the update function on the database to clean up any messes
     if result is None:
         result = []
     # suffix
@@ -104,15 +109,22 @@ def get_ff_comps(result=None):
 
 
 # update the table to include investments we missed
-def update():
+def update(to_up=None):
+    conn, c = open_db()
+    if to_up is None:
+        to_up = []
     ff_cos = get_ff_comps()
-    i = 0
-    for row in c.execute('SELECT * FROM investments'):
+    i = 1
+    data = c.execute('SELECT * FROM investments')
+    data = data.fetchall()
+    for row in data:
         if any(c in row[0] for c in ff_cos) and row[7] != 1:
             # update the ff marker to 1
-            c.execute('UPDATE investments SET fossil_fuel = 1 WHERE account=:name', {'name': row[0]})
+            to_up.append(i)
+            c.execute('UPDATE investments SET fossil_fuel = ? WHERE ROWID = ?', (1, i))
+            conn.commit()
+        i += 1
 
-# call the update function on the database to clean up any messes
 update()
 
 # commiting the changes to the database
