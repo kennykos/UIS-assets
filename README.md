@@ -15,7 +15,7 @@ https://secsatuiuc.web.illinois.edu/2021/12/01/uis-investment-data-report-2021/
 ## Python Script
 
 * **database.py**
-    + Running the database python script initializes a sqlite3 database of securities held in the operating pool and their associated information. The industry and ticker of the related asset were aquired from Wikipedia, while all other data is publicly provided by UIS.
+    + Running the database python script initializes a sqlite3 database of securities held in the operating pool and their associated information. The industry and ticker of the related asset were acquired from Wikipedia, while all other data is publicly provided by UIS.
 
 * **investment_analysis.py**
     + Running the investment analysis python script outputs relevant information regarding holdings in the Operating Pool.
