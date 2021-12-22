@@ -7,10 +7,15 @@ The University of Illinois System has over $3.9 Billion assets under management 
 
 ![image](https://github.com/kennykos/UIS-assets/blob/main/Images/opp_asset_distro.png)
 
-For more information regarding the motivation of this project, refer to https://secsatuiuc.web.illinois.edu/2021/12/01/uis-investment-data-report-2021/
+For more information regarding the motivation of this project, refer to:
+https://secsatuiuc.web.illinois.edu/2021/12/01/uis-investment-data-report-2021/
 
 
 ## Python Script
+
+1. **database.py**
+
+2. **investment_analysis.py**
 
 ## References
 
